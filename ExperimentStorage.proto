@@ -1,0 +1,28 @@
+syntax = "proto3";
+package generator;
+option java_package = "com.appmaker.service.proto";
+
+enum ExperimentTag {
+  UNKNOWN = 0;
+  LOCAL_DEFAULT = 1;
+  LOCAL_RANDOM = 2;
+  FROM_SERVER = 3;
+  SERVER_ERROR = 4;
+  SERVER_TOO_EARLY = 5;
+  SERVER_ALREADY_FETCHED = 6;
+
+  FROM_SERVER_REPORTED_BACK = 7;
+  SET_IN_DEV_MODE = 8;
+}
+
+
+message ExperimentSetup {
+  int32 arm = 1;
+  // Tags like LOCAL_DEFAULT or other values that indicate to us how this arm was chosen.
+  repeated int32 tag = 2;
+}
+
+message ExperimentData {
+  map<int64, ExperimentSetup> experiment_definition = 1;
+  bool was_retrieved_from_server = 2;
+}
